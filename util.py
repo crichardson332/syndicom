@@ -23,7 +23,7 @@ def sanitize(text):
     return text
 
 def to_past_tense(text):
-    doc = nlp(text)
+    doc = nlp(sanitize(text))
     for i in range(len(doc)):
         token = doc[i]
         if token.tag_ in ['VBP', 'VBZ']:
