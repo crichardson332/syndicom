@@ -63,7 +63,7 @@ def clean_pronouns(triplet_arr, personX='I', personY='you'):
     return clean_arr
 
 def jsonify_atomic(split, keep_blanks=False):
-    filename = f'atomic/atomic2020_data-feb2021/{split}.tsv'
+    filename = f'atomic2020_data-feb2021/{split}.tsv'
     head_map = defaultdict(lambda: defaultdict(list))
 
     # first get num_rows

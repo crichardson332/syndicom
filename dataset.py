@@ -19,7 +19,7 @@ def verify_event(event):
 def gen_dataset(split, num_samples=100):
 
     # open atomic file and parse by tabs
-    filename = f'atomic/atomic2020_data-feb2021/{split}.tsv'
+    filename = f'atomic2020_data-feb2021/{split}.tsv'
     last_event = ''
     events = []
     with open(filename) as f:

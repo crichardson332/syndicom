@@ -6,7 +6,7 @@ from random import sample
 
 def filter_dataset(split):
     # open atomic file and parse by tabs
-    filename = f'atomic/atomic2020_data-feb2021/{split}.tsv'
+    filename = f'atomic2020_data-feb2021/{split}.tsv'
     last_event = ''
     events = []
     filtered_triplets = defaultdict(list)
