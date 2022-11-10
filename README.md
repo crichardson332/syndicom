@@ -11,4 +11,4 @@
 
 ### Generate dataset
 
-    python gpt.py
+    python dataset.py

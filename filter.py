@@ -1,6 +1,7 @@
 import json
 import csv
 import pdb
+from tqdm import tqdm
 from collections import defaultdict
 from random import sample
 
@@ -35,8 +36,44 @@ def filter_dataset(split):
         # close all the files after truncating the newline
         fobj.truncate(fobj.tell()-1)
         fobj.close()
+    
+def parse_tails(split):
+    infile = f'output/dataset/{split}.jsonl'
+    with open(infile, 'r') as json_file:
+        json_list = list(json_file)
+
+    # open output file
+    outfile = f'output/dataset/tails_{split}.jsonl'
+    with open(outfile, 'w') as f:
+        pass
+
+    # write tails from dataset
+    for json_str in tqdm(json_list):
+        datum = json.loads(json_str)
+
+        # strip out the tail
+        for idx,statement in enumerate(datum['template']):
+            if 'NEGATION' in statement:
+                continue
+            parts = statement.split(':')
+            parts = [p for p in parts if p]
+            tail = parts[-1]
+
+            # removing leading whitespace
+            if tail[0] == ' ':
+                tail = tail[1:]
+
+            # write tail to the file
+            json_out = {'text': tail}
+            with open(outfile, 'a') as f:
+                json.dump(json_out, f)
+                f.write('\n')
+
+
+
 
 if __name__ == "__main__":
-    splits = ['dev']
+    splits = ['train']
     for sp in splits:
-        filter_dataset(sp)
+        # filter_dataset(sp)
+        parse_tails(sp)
