@@ -1,0 +1,60 @@
+text: PersonX about to get married
+negation: PersonX about to get divorced
+text: to live happily ever after
+negation: to be unhappy
+text: their legal status changes
+negation: their legal status stays the same
+text: happy
+negation: miserable
+text: PersonX absolutely loved
+negation: PersonX hate
+text: to marry.
+negation: to break up
+text: PersonX has bigger things weighing on them.
+negation: PersonX has nothing better to worry about
+text: gains knowledge
+negation: forgets things
+text: appreciated
+negation: undervalued 
+text: feels grateful
+negation: feels annoyed
+text: friendly
+negation: hostile
+text: to get talk to Y
+negation: to miss the chance to talk to Y
+text: wants to get married
+negation: wants to break up
+text: signs the paper
+negation: hesitates to sign the paper
+text: PersonX is already engaged to someone else.
+negation: PersonX is single
+text: to get a raise for a higher position.
+negation: to be denied the raise
+text: PersonX accepts PersonY's resignation
+negation: PersonX promotes PersonY
+text: shake PersonYs hand
+negation: ignore PersonY
+text: The boss won't allow it.
+negation: The boss is fine with it
+text: reprimand PersonY
+negation: give PersonY a promotion
+text: to be sincere
+negation: to lie and deceive 
+text: sad
+negation: happy
+text: needs to find another worker
+negation: has enough workers already
+text: PersonX accepts into college
+negation: PersonX gets rejected from college
+text: has to pack
+negation: is done packing
+text: to go off to school
+negation: to stay home
+text: accomplished
+negation: failed 
+text: PersonX accepts the challenge
+negation: PersonX chickens out
+text: to eat healthy
+negation: to eat junk food
+text: to prove they are the best
+negation: to be defeated

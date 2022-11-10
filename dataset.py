@@ -105,8 +105,6 @@ def gen_dataset(split, num_samples=None, write_tails=False, do_confounders=True)
             datum['template'].append(f'{prefix_map[rel]}{tail}')
 
             # write the tail out if we need
-            if tail == 'Y':
-                pdb.set_trace()
             if write_tails:
                 json_out = {'text': tail}
                 with open(outfile, 'a') as f:
