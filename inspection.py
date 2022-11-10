@@ -55,4 +55,5 @@ def display_annotations(subdir, dialogue_turns=4):
 
 if __name__ == '__main__':
     # display_annotations('whatsapp-rewrites2', dialogue_turns=4)
-    display_annotations('whatsapp-rewrites3')
+    # display_annotations('whatsapp-rewrites3')
+    display_annotations('opposites')

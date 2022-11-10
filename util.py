@@ -1,8 +1,14 @@
 import spacy
 import pyinflect
+import csv
+import numpy as np
 # from spacy.tokens import Token
 from datamuse import Datamuse
 import re
+import pdb
+from atomic import node_iterator
+from tqdm import tqdm
+from collections import defaultdict
 
 api = Datamuse()
 nlp = spacy.load('en_core_web_sm')
@@ -55,6 +61,40 @@ def clean_pronouns(triplet_arr, personX='I', personY='you'):
         clean_arr.append(clean_text_arr)
 
     return clean_arr
+
+def jsonify_atomic(split, keep_blanks=False):
+    filename = f'atomic/atomic2020_data-feb2021/{split}.tsv'
+    head_map = defaultdict(lambda: defaultdict(list))
+
+    # first get num_rows
+    with open(filename, 'r') as f:
+        rdr = csv.reader(f, delimiter="\t", quotechar='"')
+        num_rows = sum(1 for row in rdr) 
+
+    # have to ropen and re-parse the file
+    with open(filename, 'r') as f:
+        rdr = csv.reader(f, delimiter="\t", quotechar='"')
+
+        print(f'Reading atomic {split} split...num_rows = {num_rows}')
+        for triplet in tqdm(rdr, total=num_rows):
+            head = triplet[0]
+            relation = triplet[1]
+            tail = triplet[2]
+
+            # ignore empty triplets
+            if triplet[2] == 'none':
+                continue
+
+            # ignore blanks unless told to keep
+            if ('___' in head) or ('___' in tail):
+                continue
+
+            # just add to head dictionary
+            head_map[head][relation].append(tail)
+
+        print(f'Reading atomic {split} split...Done')
+
+    return head_map
 
 
 def opposite(word):
