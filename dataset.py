@@ -44,7 +44,7 @@ def verify_event(event):
 def common_items(list1, list2):
     return list(set(list1) & set(list2))
 
-def gen_gpt_inputs(split, num_samples=None):
+def gen_dataset(split, num_samples=None):
     valid_relations = ['IsAfter', 'HasSubEvent', 'IsBefore', 'HinderedBy', 'xNeed', 'xAttr', 'xEffect', 'xReact', 'xWant', 'xIntent']
     min_turns = 3
 
@@ -106,4 +106,4 @@ if __name__ == "__main__":
     # splits = ['train', 'dev', 'test']
     splits = ['train']
     for sp in splits:
-        gen_gpt_inputs(sp)
+        gen_dataset(sp)
