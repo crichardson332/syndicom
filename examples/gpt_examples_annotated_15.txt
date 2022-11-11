@@ -1,0 +1,161 @@
+template:
+    PersonX accidentally bumped
+    PersonX is seen as: oblivious
+    As a result, PersonX wants: break down
+dialogue:
+    PersonX: Omg I just addicentally bumped into my boss in the hallway.
+    PersonY: Why are you so obvlivious?
+    PersonX: I don't know. I want to break down and cry now.
+
+template:
+    PersonX about to get married
+    As a result, PersonX wants: to go on a honey moon
+    PersonX wanted: to share his life with someone
+    As a result, PersonX will: they are in a legal relationship
+dialogue:
+    PersonX: I'm getting married soon!
+    PersonY: Nice! I bet you're looking forward to your honeymoon.
+    PersonX: Oh yeah that will be great. I'm excited to share my life with someone.
+    PersonY: Get ready to figure out all the legal stuff too haha
+
+template:
+    PersonX absolutely loved
+    PersonX is seen as: Caring
+    As a result, Personx feels: romantic.
+    PersonX wanted: to marry.
+    As a result, PersonX will: is entertained
+dialogue:
+    PersonX: I absolutely love her
+    PersonY: You're a caring person huh
+    PersonX: I feel like such a hopeless romantic...
+    PersonY: Do you want to marry her?
+    PersonX: I would love to! Then she could entertain me forever
+
+template:
+    PersonX absolutely loved it
+    As a result, Personx feels: ecstatic over his gift
+    As a result, PersonX will: laughed
+    As a result, PersonX wants: to thank the person who gave it to them
+    PersonX is seen as: appreciative
+dialogue:
+    PersonX: I love my gift! Thank you so much!
+    PersonY: I'm glad to hear you ecstatic.
+    PersonX: Haha yeah, thank you again
+    PersonY: You're welcome
+    PersonX: I really appreciate it
+
+template:
+    PersonX accepts PersonY's resignation
+    As a result, PersonY will: makes more money
+    PersonX is seen as: Understanding
+    PersonX wanted: to be sincere
+    As a result, PersonX wants: have lunch with PersonY
+    Before that, PersonX needed: find a replacement
+dialogue:
+    PersonX: I've read your letter and I accept your resignation.
+    PersonY: Thank you. I just couldn't pass up the raise.
+    PersonX: I completely understand. We will miss you though.
+    PersonY: Thank you for being sincere.
+    PersonX: Let's have lunch before your last day. 
+    PersonY: Sure thing! And since you need to find a replacement for me, I can recommend a few people.
+
+template:
+    PersonX accepts into college
+    As a result, PersonX wants: to buy stuff for dorm room
+    PersonX wanted: to going college
+    Before that, PersonX needed: to get good grades in high school
+    PersonX is seen as: intelligent
+dialogue:
+    PersonX: I got accepted into college!
+    PersonY: That's great! I bet you can't wait to buy stuff for your dorm now.
+    PersonX: Yeah I'm excited about that. I wanted to go to college so bad.
+    PersonY: It's a good thing you kept your grades up in high school.
+    PersonX: Well my mom always told me I was intelligent!
+
+template:
+    PersonX accepts the challenge
+    As a result, PersonX will: joins the competition
+    Before that, PersonX needed: get into an argument with someone
+    As a result, PersonX wants: to sleep well
+    PersonX is seen as: bold
+    As a result, Personx feels: determined
+    PersonX wanted: to win
+dialogue:
+    PersonX: I accepted the challenge.
+    PersonY: Okay, so you are joining the competition then?
+    PersonX: Yes. I am ready to have the debate.
+    PersonY: You may want to get some rest before the event.
+    PersonX: I am confident enough in my own courage.
+    PersonY: You sound determined.
+    PersonX: I am. I want to win this thing.
+
+template:
+    PersonX accepts the fact
+    PersonX wanted: to learn something new
+    As a result, PersonX wants: to quit the job
+    Before that, PersonX needed: to know about it
+    PersonX is seen as: brave
+    As a result, Personx feels: agreeable
+    As a result, PersonX will: gains knowledge
+dialogue:
+    PersonX: You were right about what you said yesterday.
+    PersonY: At least you learned something new.
+    PersonX: I should have quit this job a month ago.
+    PersonY: Well you needed to know for a fact before you quit.
+    PersonX: Will people think I'm brave if I quit now?
+    PersonY: Maybe. At least you weren't argumentative when I told you.
+    PersonX: Hopefully I will have at least gained knowledge from this experience.
+
+template:
+    PersonX accidentally burned
+    As a result, Personx feels: painfull
+    PersonX is seen as: scared
+dialogue:
+    PersonX: I burned my hand on the oven yesterday.
+    PersonY: I bet that's painful.
+    PersonX: Yeah I was really scared after it happened.
+
+template:
+    PersonX accidentally cut
+    As a result, PersonX will: bleeds
+    As a result, PersonX wants: to call the doctor
+dialogue:
+    PersonX: My hand still hurts from cutting myself the other day.
+    PersonY: Yikes, did it bleed?
+    PersonX: Yes, I had to go to the doctor.
+
+
+template:
+    PersonX sees the baby
+    As a result, Personx feels: very happy
+    As a result, PersonX wants: to have a great time with the baby
+    PersonX wanted: to have a child for a long time.
+    Before that, PersonX needed: goes to the hospital
+dialogue:
+    PersonX: Seeing my baby for the first time was amazing.
+    PersonY: How happy were you at that momeny?
+    PersonX: So happy, I just wanted to have a great time with her.
+    PersonY: That's nice. I know you've wanted to have a child for a long time.
+    PersonX: Getting to the hospital was rough but it was all worth it.
+
+template:
+    PersonX feels trapped
+    As a result, PersonX will: get mentally well.
+    As a result, Personx feels: frustrated
+    As a result, PersonX wants: new area
+dialogue:
+    PersonX: I don't know what to do, I feel so trapped.
+    PersonY: You should probably see a therapist.
+    PersonX: I know. I'm so frustrated I can't focus.
+    PersonY: Do you think moving to a new area would help?
+
+template:
+    PersonX makes pancakes
+    Before that, PersonX needed: buy ingredients
+    As a result, PersonX will: gets dirty
+    PersonX is seen as: Resourceful
+dialogue:
+    PersonX: I'm making pancakes tomorrow!
+    PersonY: Ooh yummy. Have you bought the ingredients yet?
+    PersonX: Yeah I have. We're going to get all dirty so get ready.
+    PersonY: You're so resourceful!
