@@ -1,0 +1,401 @@
+
+
+template:
+    PersonX makes fun
+    As a result, PersonX wants: to be less self conscious
+    Before that, PersonX needed: to think of how to pick on someone
+dialogue:
+    PersonX:
+    PersonY:
+    PersonX:
+
+template:
+    PersonX tells PersonY to make
+    PersonX is seen as: intrusive
+    As a result, PersonX wants: help with stew
+    Before that, PersonX needed: to know what to tell PersonY to make
+    PersonX wanted: to be involved
+    As a result, Personx feels: excited
+dialogue:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+
+template:
+    PersonX takes pictures
+    As a result, Personx feels: accomplished
+    As a result, PersonX wants: to remember the moment
+    PersonX is seen as: conscientious
+    As a result, PersonX will: sees a rare sight
+    PersonX wanted: to save memories
+dialogue:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+
+template:
+    PersonX dumps PersonY
+    PersonX wanted: to do something different in their life
+    As a result, Personx feels: freed
+    Before that, PersonX needed: find personY
+    PersonX is seen as: irritated
+    As a result, PersonX wants: be rid of PersonY
+dialogue:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+
+template:
+    PersonX feels a sharp pain in PersonX's arm
+    As a result, PersonX will: begins to bleed
+    Before that, PersonX needed: to have bumped into something
+    As a result, PersonX wants: to reach for his/her arm
+dialogue:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+
+template:
+    PersonX rings PersonY's bell
+    PersonX is seen as: irritating
+    As a result, Personx feels: good at having gotten attention
+    PersonX wanted: to get persony's attention
+    As a result, PersonX will: gets PersonY's response
+dialogue:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+    PersonX:
+
+template:
+    PersonX pleases PersonY better
+    PersonX is seen as: Confident
+    As a result, Personx feels: responsible
+    As a result, PersonX will: is obligated to do so
+dialogue:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+
+template:
+    PersonX ignores PersonY
+    As a result, Personx feels: focused
+    As a result, PersonX will: Acknowledge that they might be ignoring
+    PersonX wanted: to get peace
+    PersonX is seen as: stubborn
+    As a result, PersonX wants: to get away from PersonY
+dialogue:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+
+template:
+    PersonX runs for cover
+    As a result, PersonX wants: to observe what it is
+    PersonX wanted: to avoid something
+    As a result, PersonX will: screams
+dialogue:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+
+template:
+    PersonX returns PersonY's attention
+    PersonX wanted: to be friends
+    PersonX is seen as: knowledgeable
+    Before that, PersonX needed: to get attention from persony
+    As a result, Personx feels: happy.
+    As a result, PersonX will: wants personY to learn
+dialogue:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+
+template:
+    PersonX stays home all day
+    PersonX wanted: to be a homey
+    PersonX is seen as: lazy
+    As a result, Personx feels: happy to have the freedom to make his own schedule
+    As a result, PersonX will: watches news
+    Before that, PersonX needed: sick
+    As a result, PersonX wants: to sleep late
+dialogue:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+    PersonX:
+
+template:
+    PersonX sees the baby
+    As a result, Personx feels: very happy
+    As a result, PersonX wants: to have a great time with the baby
+    PersonX wanted: to have a child for a long time.
+    Before that, PersonX needed: goes to the hospital
+dialogue:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+    PersonX:
+
+template:
+    PersonX buys a fan
+    As a result, PersonX will: PersonX plugs the fan in.
+    PersonX wanted: to stay cool
+    PersonX is seen as: knowledgeable
+    As a result, PersonX wants: plug it in
+    Before that, PersonX needed: to spend money
+dialogue:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+
+template:
+    PersonX feels trapped
+    As a result, PersonX will: get mentally well.
+    As a result, Personx feels: frustrated
+    As a result, PersonX wants: new area
+dialogue:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+
+template:
+    PersonX goes to PersonY's grandmother 's house
+    As a result, PersonX wants: to talk to grandma
+    As a result, PersonX will: Helps give grandmother care
+    PersonX is seen as: kind
+dialogue:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+
+template:
+    PersonX loses power
+    PersonX is seen as: helpless
+    As a result, PersonX wants: work harder and smarter
+    Before that, PersonX needed: get exhausted
+dialogue:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+
+template:
+    PersonX makes pancakes
+    Before that, PersonX needed: buy ingredients
+    As a result, PersonX will: gets dirty
+    As a result, Personx feels: fed
+    As a result, PersonX wants: to clean up
+    PersonX wanted: to eat
+    PersonX is seen as: Resourceful
+dialogue:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+    PersonX:
+
+template:
+    PersonX bends the knee
+    Before that, PersonX needed: to enter the palace
+    As a result, Personx feels: relief
+    PersonX wanted: to be fit
+dialogue:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+
+template:
+    PersonX waits in line for an hour
+    As a result, Personx feels: satisfied.
+    PersonX wanted: to buy the new iphone.
+    PersonX is seen as: patient
+dialogue:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+
+template:
+    PersonX uses PersonY program
+    PersonX is seen as: intrigued
+    As a result, PersonX wants: print a paper
+    As a result, Personx feels: content
+    Before that, PersonX needed: to learn how to use the program
+    PersonX wanted: they are testing the program out
+    As a result, PersonX will: takes advantage
+dialogue:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+    PersonX:
+
+template:
+    PersonX calls my friend
+    PersonX is seen as: friendly
+    As a result, Personx feels: friendly.
+    PersonX wanted: yell at them for hurting my feelings
+    As a result, PersonX wants: to ask my friend if they have seen me
+    Before that, PersonX needed: to dial the number
+dialogue:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+
+template:
+    PersonX checks PersonX's pockets
+    As a result, PersonX wants: do laundry
+    As a result, PersonX will: thinks about what to buy
+    As a result, Personx feels: upset
+    PersonX wanted: to find extra change
+    PersonX is seen as: thoughtful
+dialogue:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+
+template:
+    PersonX kills PersonY
+    Before that, PersonX needed: to go over a plan
+    PersonX is seen as: brave
+    As a result, PersonX will: gets arrested
+    As a result, PersonX wants: Hide all the evidence
+dialogue:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+    PersonX:
+
+template:
+    PersonX saves PersonY for later
+    As a result, PersonX wants: to use his skills for other purposes
+    Before that, PersonX needed: to neglect his work
+    PersonX wanted: to deal with persony later
+    As a result, Personx feels: on schedule
+dialogue:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+    PersonX:
+
+template:
+    PersonX knows where PersonY was
+    Before that, PersonX needed: leave their old job
+    As a result, PersonX wants: find an apartment
+    As a result, Personx feels: informed
+    PersonX is seen as: TALENT
+dialogue:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+    PersonX:
+
+template:
+    PersonX gives people
+    As a result, PersonX will: tired
+    Before that, PersonX needed: buy a gift
+    As a result, Personx feels: in control
+dialogue:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+
+template:
+    PersonX looks PersonY in the eyes
+    PersonX wanted: get person's attention
+    Before that, PersonX needed: to find PersonY
+    PersonX is seen as: friendly
+    As a result, Personx feels: attentive
+    As a result, PersonX wants: to say Hello to PersonY
+dialogue:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+
+template:
+    PersonX gives PersonY's candy
+    Before that, PersonX needed: to buy candy
+    PersonX is seen as: generous
+dialogue:
+    PersonX:
+    PersonY:
+    PersonX:
+
+template:
+    PersonX sends PersonY on PersonX's way
+    Before that, PersonX needed: to be knowledgable
+    As a result, PersonX will: becomes alone for the night
+    As a result, PersonX wants: to set new goals
+    PersonX is seen as: bold
+    PersonX wanted: to give guidance
+dialogue:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+
+template:
+    PersonX passes with flying colors
+    PersonX wanted: to be happy joyful
+    As a result, Personx feels: satisfied
+    As a result, PersonX wants: to enjoy passing
+    Before that, PersonX needed: to study well
+    PersonX is seen as: clean
+    As a result, PersonX will: gets good grade
+dialogue:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+    PersonX:
+    PersonY:
+    PersonX:

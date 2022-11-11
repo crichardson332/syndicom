@@ -133,7 +133,7 @@ template:
     Before that, PersonX needed: goes to the hospital
 dialogue:
     PersonX: Seeing my baby for the first time was amazing.
-    PersonY: How happy were you at that momeny?
+    PersonY: How happy were you at that moment?
     PersonX: So happy, I just wanted to have a great time with her.
     PersonY: That's nice. I know you've wanted to have a child for a long time.
     PersonX: Getting to the hospital was rough but it was all worth it.

@@ -96,6 +96,15 @@ def jsonify_atomic(split, keep_blanks=False):
 
     return head_map
 
+def parse_gpt_response(text):
+    text = text.replace('\n','')
+    text = text.replace('    ','')
+    text = text.replace('PersonY','PersonX')
+    text = text.replace(': ','')
+    text = text.split('PersonX')
+    text = [t for t in text if t]
+    return text
+
 
 def opposite(word):
     opps = api.words(rel_ant=word)
