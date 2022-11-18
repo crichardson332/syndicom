@@ -22,7 +22,7 @@ prefix_map = {
     'xNeed': 'Before that, PersonX needed: ',
     'xAttr': 'PersonX is seen as: ',
     'xEffect': 'As a result, PersonX will: ',
-    'xReact': 'As a result, Personx feels: ',
+    'xReact': 'As a result, PersonX feels: ',
     'xWant': 'As a result, PersonX wants: ',
     'xIntent' : 'PersonX wanted: ',
     'HinderedBy': 'This can be hindered by: ',
@@ -62,6 +62,11 @@ def gen_templates(split, num_samples=None, write_tails=False, do_confounders=Tru
         with open(tails_outfile, 'w') as f:
             pass
 
+    if do_confounders:
+        with open(f'output/confounders/negations.json', 'r') as f:
+            negations = json.load(f)
+
+
     atomic_json = util.jsonify_atomic(split)
 
     keys = list(atomic_json.keys())
@@ -77,8 +82,6 @@ def gen_templates(split, num_samples=None, write_tails=False, do_confounders=Tru
     datum_id = -1
     for idx,subgraph in enumerate(tqdm(subgraphs)):
         head = subgraph[0]
-        datum_id += 1
-        datum = {'template': [head], 'id': datum_id}
 
         # randomize number of turns
         num_turns = random.randint(min_turns,max_turns)
@@ -88,6 +91,10 @@ def gen_templates(split, num_samples=None, write_tails=False, do_confounders=Tru
         candidate_relations = sorted(subgraph[1].keys() & valid_relations)
         if len(candidate_relations) < min_turns:
             continue
+
+        # now increment the id
+        datum_id += 1
+        datum = {'template': [head], 'id': datum_id}
 
         # reset num_turns if we have fewer valid relations to choose from
         num_turns = min(num_turns, len(candidate_relations)+1)
@@ -113,20 +120,28 @@ def gen_templates(split, num_samples=None, write_tails=False, do_confounders=Tru
                     json.dump(json_out, f)
                     f.write('\n')
 
-        # randomly choose a tail to negate and create a confounding dialogue
-        idx_confounder = random.randint(0, num_turns-1)
-        datum_id += 1
-        datum_confounder = copy.deepcopy(datum)
-        datum_confounder['id'] = datum_id
-
-        # TODO implement negations here with GPT
-        # datum_confounder['template'][idx_confounder] = f"NEGATION OF: {datum['template'][idx_confounder]}"
-
+        # write positive example to file
         with open(outfile, 'a') as f:
             json.dump(datum, f)
             f.write('\n')
-            # json.dump(datum_confounder, f)
-            # f.write('\n')
+
+        # randomly choose a tail to negate and create a confounding dialogue
+        if do_confounders:
+            idx_confounder = random.randint(1, num_turns-1)
+            datum_id += 1
+            datum_confounder = copy.deepcopy(datum)
+            datum_confounder['id'] = datum_id
+
+            # get negations from database
+            tail_prefix, old_tail = datum_confounder['template'][idx_confounder].split(': ')
+            if old_tail in negations.keys():
+                new_tail = negations[old_tail] 
+                datum_confounder['template'][idx_confounder] = f'{tail_prefix}: {new_tail}'
+                datum_confounder['idx_confounder'] = idx_confounder
+                with open(outfile, 'a') as f:
+                    json.dump(datum_confounder, f)
+                    f.write('\n')
+
 
     print(f'Generating dataset...Done')
 
@@ -136,6 +151,8 @@ def gen_dialogues(split, start_index=0):
     # TODO check if the file exists. dont override
     # with open(outfile, 'w') as f:
     #     pass
+    with open(outfile, 'w') as f:
+        pass
 
     # openai api key
     api_key_file = Path('/Users/crichardson8/.gpt/api_key')
@@ -187,8 +204,11 @@ def gen_dialogues(split, start_index=0):
     print(f'Generating dialogues for {split} split...Done')
 
 if __name__ == "__main__":
-    # splits = ['train', 'dev', 'test']
-    splits = ['train']
+    splits = ['train', 'dev', 'test']
+    # splits = ['train']
     for sp in splits:
         # gen_templates(sp, write_tails=True, do_confounders=False)
-        gen_dialogues(sp, start_index=40)
+        # gen_templates(sp, write_tails=False, do_confounders=True)
+        # gen_templates(sp, write_tails=False, do_confounders=False)
+        # gen_dialogues(sp, start_index=0)
+        gen_dialogues(sp, start_index=2671)

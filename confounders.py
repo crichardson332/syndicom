@@ -47,8 +47,29 @@ def gpt_negations(split):
 
     print(f'Running samples through GPT...Done')
 
+def parse_gpt_negations():
+    infile = f'output/gpt/negations_p1.json'
+    with open(infile, 'r') as f:
+        negations = json.load(f)
+
+    outfile = f'output/confounders/negations.json'
+    with open(outfile, 'w') as f:
+        pass
+    output = {}
+    for neg in negations:
+        text = neg[1].replace('\n','')
+        text_negation = neg[2].replace('\n','')
+        output[text] = text_negation
+
+    with open(outfile, 'w') as f:
+        json.dump(output, f)
+        
+
+
 
 if __name__ == "__main__":
     splits = ['train']
-    for sp in splits:
-        gpt_negations(sp)
+    # for sp in splits:
+    #     gpt_negations(sp)
+
+    parse_gpt_negations()

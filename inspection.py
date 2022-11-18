@@ -2,12 +2,22 @@ import json
 from pathlib import Path
 import pdb
 from pprint import pprint
+from tabulate import tabulate
+import argparse
 
 def toggle_speaker(speaker):
     if speaker == 'A':
         return 'B'
     else:
         return 'A'
+
+def parse_args():
+    parser=argparse.ArgumentParser(description="Inspect generated data for syndicom.")
+    parser.add_argument("--data", default='dialogues')
+    parser.add_argument("--subdir", default='opposites')
+    parser.add_argument("--dialogue_turns", default=4)
+    args=parser.parse_args()
+    return args
 
 def display_annotations(subdir, dialogue_turns=4):
     directory = f'sagemaker/annotations/{subdir}'
@@ -50,10 +60,55 @@ def display_annotations(subdir, dialogue_turns=4):
                 except KeyError:
                     print(f"  {speaker}: - turn missing -")
                     continue
+    
+def display_dialogues(split):
+    infile = f'output/dataset/{split}.jsonl'
+    with open(infile, 'r') as json_file:
+        json_list = list(json_file)
 
+
+    for json_str in json_list:
+        datum = json.loads(json_str)
+        template = '\n'.join(datum['template'])
+        dialogue = '\n'.join(datum['dialogue'])
+        idx = datum['id']
+        valids = [u'\u2713'] * len(datum['template'])
+        if 'idx_confounder' in datum.keys():
+            idx_confounder = int(datum['idx_confounder'])
+            # arrow = ''.join(['\r']*idx_confounder) + '<---'
+            valids[idx_confounder] = 'x'
+        valids = '\n'.join(valids)
+        print(tabulate([[template, valids, dialogue, idx]], headers=['Template','Valid','Dialogue', 'ID'],tablefmt="simple_grid"))
+        pdb.set_trace()
+
+def display_templates(split):
+    infile = f'output/templates/{split}.jsonl'
+    with open(infile, 'r') as json_file:
+        json_list = list(json_file)
+
+    for json_str in json_list:
+        datum = json.loads(json_str)
+        template = '\n'.join(datum['template'])
+        idx = datum['id']
+        valids = [u'\u2713'] * len(datum['template'])
+        if 'idx_confounder' in datum.keys():
+            idx_confounder = int(datum['idx_confounder'])
+            # arrow = ''.join(['\r']*idx_confounder) + '<---'
+            valids[idx_confounder] = 'x'
+        valids = '\n'.join(valids)
+        print(tabulate([[template, valids, idx]], headers=['Template','Valid','ID'],tablefmt="simple_grid"))
+        pdb.set_trace()
+
+
+def main(args, split):
+    if args.data == 'templates':
+        display_templates(split)
+    elif args.data == 'dialogues':
+        display_dialogues(split)
+    elif args.data == 'annotations':
+        display_annotations(args.subdir, args.dialogue_turns)
 
 
 if __name__ == '__main__':
-    # display_annotations('whatsapp-rewrites2', dialogue_turns=4)
-    # display_annotations('whatsapp-rewrites3')
-    display_annotations('opposites')
+    args = parse_args()
+    main(args, 'train')
