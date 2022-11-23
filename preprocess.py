@@ -7,5 +7,6 @@ def preprocess():
     with open(infile, 'r') as json_file:
         json_list = list(json_file)
 
+    outfile = f'output/huggingface/syndicom.jsonl'
     for json_str in json_list:
         datum = json.loads(json_str)

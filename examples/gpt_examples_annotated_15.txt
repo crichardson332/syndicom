@@ -21,7 +21,7 @@ dialogue:
 template:
     PersonX absolutely loved
     PersonX is seen as: Caring
-    As a result, Personx feels: romantic.
+    As a result, PersonX feels: romantic.
     PersonX wanted: to marry.
     As a result, PersonX will: is entertained
 dialogue:
@@ -33,7 +33,7 @@ dialogue:
 
 template:
     PersonX absolutely loved it
-    As a result, Personx feels: ecstatic over his gift
+    As a result, PersonX feels: ecstatic over his gift
     As a result, PersonX will: laughed
     As a result, PersonX wants: to thank the person who gave it to them
     PersonX is seen as: appreciative
@@ -78,7 +78,7 @@ template:
     Before that, PersonX needed: get into an argument with someone
     As a result, PersonX wants: to sleep well
     PersonX is seen as: bold
-    As a result, Personx feels: determined
+    As a result, PersonX feels: determined
     PersonX wanted: to win
 dialogue:
     PersonX: I accepted the challenge.
@@ -95,7 +95,7 @@ template:
     As a result, PersonX wants: to quit the job
     Before that, PersonX needed: to know about it
     PersonX is seen as: brave
-    As a result, Personx feels: agreeable
+    As a result, PersonX feels: agreeable
     As a result, PersonX will: gains knowledge
 dialogue:
     PersonX: You were right about what you said yesterday.
@@ -108,7 +108,7 @@ dialogue:
 
 template:
     PersonX accidentally burned
-    As a result, Personx feels: painfull
+    As a result, PersonX feels: painfull
     PersonX is seen as: scared
 dialogue:
     PersonX: I burned my hand on the oven yesterday.
@@ -127,7 +127,7 @@ dialogue:
 
 template:
     PersonX sees the baby
-    As a result, Personx feels: very happy
+    As a result, PersonX feels: very happy
     As a result, PersonX wants: to have a great time with the baby
     PersonX wanted: to have a child for a long time.
     Before that, PersonX needed: goes to the hospital
@@ -141,7 +141,7 @@ dialogue:
 template:
     PersonX feels trapped
     As a result, PersonX will: get mentally well.
-    As a result, Personx feels: frustrated
+    As a result, PersonX feels: frustrated
     As a result, PersonX wants: new area
 dialogue:
     PersonX: I don't know what to do, I feel so trapped.
