@@ -42,24 +42,28 @@ def display_annotations(subdir, dialogue_turns=4):
         print(f'\n--- DIALOGUE {idx} ---')
         machine_dialogue = inputs[idx].split('[SEP]')
 
-        print(f'Machine dialogue:')
+        print(f'Dialogue:')
         speaker = 'A'
         for turn in machine_dialogue:
             print(f'  {speaker}: {turn}')
             speaker = toggle_speaker(speaker)
+
+        print(f'\nConfounding turn:')
+        print(f'  A: {machine_dialogue[2]}')
         
         # show turker annotations 
         ann = json.load(file.open('r'))
         for i_ans,ans in enumerate(ann['answers']):
-            print(f'\nTurker{i_ans} rewrite:')
+            print(f'\nTurker{i_ans} explanation:')
             speaker = 'B'
-            for i_turn in range(dialogue_turns):
-                speaker = toggle_speaker(speaker)
-                try:
-                    print(f"  {speaker}: {ans['answerContent'][f'utterance{i_turn}']}")
-                except KeyError:
-                    print(f"  {speaker}: - turn missing -")
-                    continue
+            print(f"  {speaker}: {ans['answerContent'][f'explanation']}")
+            # for i_turn in range(dialogue_turns):
+            #     speaker = toggle_speaker(speaker)
+            #     try:
+            #         print(f"  {speaker}: {ans['answerContent'][f'explanation']}")
+            #     except KeyError:
+            #         print(f"  {speaker}: - turn missing -")
+            #         continue
     
 def display_dialogues(split):
     infile = f'output/dataset/{split}.jsonl'
@@ -99,6 +103,18 @@ def display_templates(split):
         print(tabulate([[template, valids, idx]], headers=['Template','Valid','ID'],tablefmt="simple_grid"))
         pdb.set_trace()
 
+def display_negations(split):
+    infile = f'output/dataset/{split}_negations.jsonl'
+    with open(infile, 'r') as json_file:
+        json_list = list(json_file)
+
+    for json_str in json_list:
+        datum = json.loads(json_str)
+        dialogue = '\n'.join(datum['dialogue'])
+        negations = '\n'.join(datum['negations'])
+        idx = datum['id']
+        print(tabulate([[dialogue, negations, idx]], headers=['Dialogue','Negations','ID'],tablefmt="simple_grid"))
+        pdb.set_trace()
 
 def main(args, split):
     if args.data == 'templates':
@@ -106,7 +122,9 @@ def main(args, split):
     elif args.data == 'dialogues':
         display_dialogues(split)
     elif args.data == 'annotations':
-        display_annotations(args.subdir, args.dialogue_turns)
+        display_annotations(args.subdir)
+    elif args.data == 'negations':
+        display_negations(split)
 
 
 if __name__ == '__main__':
