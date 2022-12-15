@@ -1,13 +1,13 @@
 text: I feel satisfied. I'm glad I completed it before the deadline.
 opposite: I feel like a failure. I wanted to complete it before the deadline. 
 text: I did. I'm glad I didn't get too behind.
-opposite: I did. I'm worried I got too behind. 
+opposite: I'm worried I got too behind. 
 text: That's sad.
 opposite: That's great!
 text: I know. I feel so embarrassed.
-opposite: I know. I feel pretty confident. 
+opposite: I'm pretty confident. 
 text: Yeah. I really want to come back to the library now.
-opposite: Yeah. I don't want to go to the library.
+opposite: I don't want to go to the library.
 text: You're so careless sometimes.
 opposite: You're so careful.
 text: I bet you were really nervous too.
@@ -15,4 +15,4 @@ opposite: I bet you were really relaxed too.
 text: Yeah I just screamed from the pain.
 opposite: Yeah I feel really great right now.
 text: I feel really proud of myself and it's a huge relief to have all that stress gone.
-opposite: I feel lousy and I'm really stressed out. 
+opposite: I feel lousy and really stressed out. 

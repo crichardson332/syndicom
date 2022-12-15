@@ -145,13 +145,26 @@ def gen_templates(split, num_samples=None, write_tails=False, do_confounders=Tru
 
     print(f'Generating dataset...Done')
 
-def gen_dialogues(split, start_index=0, end_index=None):
+def gen_dialogues(split, start_index=0, end_index=None, mode='append'):
     # output file create/overwrite file
-    outfile = f'output/dataset/{split}.jsonl'
+    outfile = f'output/dataset/{split}_dialogues.jsonl'
     # TODO check if the file exists. dont override
     # with open(outfile, 'w') as f:
     #     pass
-    with open(outfile, 'w') as f:
+
+    if mode == 'append':
+        mode_char = 'a'
+    elif mode == 'write':
+        mode_char = 'w'
+
+    # if append mode and start index is not defined, find the most recent index and start from there
+    if mode == 'append':
+        with open(outfile) as f:
+            for line in f:
+                pass
+            start_index = int(json.loads(line)['id']) + 1
+
+    with open(outfile, mode_char) as f:
         pass
 
     # openai api key
@@ -204,13 +217,25 @@ def gen_dialogues(split, start_index=0, end_index=None):
 
     print(f'Generating dialogues for {split} split...Done')
 
-def add_negations(split, start_index=0, stop_index=None):
+def add_negations(split, start_index=0, stop_index=None, mode='append', deep=False):
     # output file create/overwrite file
-    outfile = f'output/dataset/{split}_negations.jsonl'
+    outfile = f'output/dataset/{split}.jsonl'
     # TODO check if the file exists. dont override
     # with open(outfile, 'w') as f:
     #     pass
-    with open(outfile, 'w') as f:
+    if mode == 'append':
+        mode_char = 'a'
+    elif mode == 'write':
+        mode_char = 'w'
+
+    # if append mode and start index is not defined, find the most recent index and start from there
+    if mode == 'append':
+        with open(outfile) as f:
+            for line in f:
+                pass
+            start_index = int(json.loads(line)['id']) + 1
+
+    with open(outfile, mode_char) as f:
         pass
 
     # openai api key
@@ -227,8 +252,7 @@ def add_negations(split, start_index=0, stop_index=None):
     gpt_preamble += examples_str
 
     # read templates and get GPT response
-    infile = f'output/dataset/{split}.jsonl'
-    
+    infile = f'output/dataset/{split}_dialogues.jsonl'
     with open(infile, 'r') as json_file:
         json_list = list(json_file)
 
@@ -236,12 +260,18 @@ def add_negations(split, start_index=0, stop_index=None):
     for json_str in tqdm(json_list[start_index:stop_index]):
         datum = json.loads(json_str)
         datum['negations'] = []
-        for turn in datum['dialogue']:
+
+        # if shallow, only negate the last turn
+        if deep:
+            si = 0
+        else:
+            si = -1
+        for turn in datum['dialogue'][si:]:
             gpt_prompt = f'{gpt_preamble}\ntext: {turn}\nopposite: '
 
             # ping GPT api
             response = openai.Completion.create(
-                engine="text-davinci-002",
+                engine="text-davinci-003",
                 prompt=gpt_prompt,
                 temperature=0.7,
                 max_tokens=50,
@@ -263,12 +293,16 @@ def add_negations(split, start_index=0, stop_index=None):
 
 if __name__ == "__main__":
     # splits = ['train', 'dev', 'test']
-    splits = ['train']
+    # splits = ['train']
+    # splits = ['dev', 'test']
+    # splits = ['dev']
+    splits = ['test']
     for sp in splits:
         # gen_templates(sp, write_tails=True, do_confounders=False)
         # gen_templates(sp, write_tails=False, do_confounders=True)
         # gen_templates(sp, write_tails=False, do_confounders=False)
-        # gen_dialogues(sp, start_index=0)
-        # gen_dialogues(sp, start_index=0, end_index=100)
-        # add_negations(sp, start_index=100, stop_index=1000)
-        add_negations(sp, start_index=0, stop_index=100)
+        # gen_dialogues(sp, start_index=8)
+        gen_dialogues(sp)
+        # add_negations(sp, start_index=8)
+        # add_negations(sp, start_index=4995, stop_index=5000)
+        # add_negations(sp, deep=True)
