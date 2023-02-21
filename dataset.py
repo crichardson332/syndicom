@@ -204,7 +204,7 @@ def gen_dialogues(split, start_index=0, end_index=None, mode='append'):
             top_p=1.0,
             frequency_penalty=0.0,
             presence_penalty=0.0,
-            stop='template:'
+            stop=['template:', 'dialogue:']
         )
 
         # pprint(gpt_prompt)
@@ -302,7 +302,7 @@ if __name__ == "__main__":
         # gen_templates(sp, write_tails=False, do_confounders=True)
         # gen_templates(sp, write_tails=False, do_confounders=False)
         # gen_dialogues(sp, start_index=8)
-        gen_dialogues(sp)
+        gen_dialogues(sp, start_index=15)
         # add_negations(sp, start_index=8)
         # add_negations(sp, start_index=4995, stop_index=5000)
-        # add_negations(sp, deep=True)
+        # add_negations(sp, deep=False)

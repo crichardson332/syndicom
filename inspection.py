@@ -1,8 +1,10 @@
 import json
+import csv
+import re
 from pathlib import Path
 import pdb
 from pprint import pprint
-from tabulate import tabulate
+from tabulate import tabulate, SEPARATING_LINE
 import argparse
 
 def toggle_speaker(speaker):
@@ -116,6 +118,25 @@ def display_negations(split):
         print(tabulate([[dialogue, negations, idx]], headers=['Dialogue','Negations','ID'],tablefmt="simple_grid"))
         pdb.set_trace()
 
+def display_explanations():
+    infile = f'sagemaker/annotations/mturk/batch1.csv'
+
+    with open(infile, newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for idx,row in enumerate(reader):
+            turns = [row['Input.turn0'],row['Input.turn1'],row['Input.turn2']]
+            dialogue = '\n'.join(turns)
+            explanation = json.loads(row['Answer.taskAnswers'])[0]['explanation']
+
+            # insert newlines to explanation to make it fit
+            explanation = re.sub("(.{64})", "\\1\n", explanation, 0, re.DOTALL)
+
+            # print in table
+            print(tabulate([[dialogue,explanation]], headers=['Dialogue','Explanation'],tablefmt="simple_grid"))
+            if idx % 5 == 0:
+                pdb.set_trace()
+
+
 def main(args, split):
     if args.data == 'templates':
         display_templates(split)
@@ -125,6 +146,8 @@ def main(args, split):
         display_annotations(args.subdir)
     elif args.data == 'negations':
         display_negations(split)
+    elif args.data == 'explanations':
+        display_explanations()
 
 
 if __name__ == '__main__':

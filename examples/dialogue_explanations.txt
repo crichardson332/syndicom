@@ -1,0 +1,65 @@
+Below is a text message conversation written by an AI attempting to sound human. Look at the last message. Why does that message sound wrong or out of place? Be specific!
+
+Conversation:
+I think I'd better go.
+Oh, okay. Are you feeling rushed?
+Yeah, I'm in a bit of a hurry.
+You should stay busy and stay active when you get home then.
+Explanation:
+The advice does not fit the situation.
+
+Conversation:
+I can't believe I'm actually graduating.
+You've worked so hard for this.
+It feels so good to be done with high school.
+What are your plans now?
+I'm going to apply for college. I've wanted to graduate for so long.
+You're finally going to give up.
+Explanation:
+Saying that they are going to give up when they are graduate high school and then pursue college makes no sense. You should tell them they have done a good job and hope they get into their chosen college.
+
+Conversation:
+I accept your invitation to the party.
+Great! I'll make a note of it.
+I'll mail an RSVP to you.
+Thanks. I'm glad you can make it.
+I wanted to show my appreciation for your invitation.
+I'm disappointed you did. Now I don't get to know you better.
+Explanation:
+The highlighted message doesn't make sense.  Grey AI is disappointed that Blue AI accepted the invitation, apparently disappointed that this will mean s/he can't know Blue AI better--for showing up?  Makes no sense.
+
+Conversation:
+I accept your offer.
+Great! I'll have the documents drawn up.
+When can I sign them?
+As soon as possible. We would like you to join the company as soon as possible.
+I'm grateful for the opportunity.
+You're very unfair. I'm sure you will be a burden to the company.
+Explanation:
+You would not be hiring someone, if you thought they'd be a burden to the company.
+
+Conversation:
+I accept your offer.
+Great! I'll show you the goods I bought.
+I'll take a look.
+We won't shake hands on the deal.
+Explanation:
+the two people have agreed to a deal.  instead of saying they won't shake hands, the response should be the opposite....actually shaking hands.
+
+Conversation:
+I accept your invitation to the party.
+Great! I'm sure you'll have fun.
+I'm looking forward to it. I just need to be important.
+You're never available!
+Explanation:
+But the partner already said they were going to attend.
+
+Conversation:
+I accept your offer.
+I'm glad you're accepting.
+I really wanted the job.
+You will be paid on the 15th of every month.
+I will make sure to listen to the offer next time.
+I'm frustrated we haven't reached an agreement.
+Explanation:
+it is apparent that an offer HAS been agreed on and then suddenly they say that they are frustrated that no agreement was made.  that's a direct contradiction.
