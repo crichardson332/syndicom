@@ -147,7 +147,7 @@ def gen_templates(split, num_samples=None, write_tails=False, do_confounders=Tru
 
 def gen_dialogues(split, start_index=0, end_index=None, mode='append'):
     # output file create/overwrite file
-    outfile = f'output/dataset/{split}_dialogues.jsonl'
+    outfile = f'output/dataset/old_format/{split}_dialogues.jsonl'
     # TODO check if the file exists. dont override
     # with open(outfile, 'w') as f:
     #     pass
@@ -217,9 +217,9 @@ def gen_dialogues(split, start_index=0, end_index=None, mode='append'):
 
     print(f'Generating dialogues for {split} split...Done')
 
-def add_negations(split, start_index=0, stop_index=None, mode='append', deep=False):
+def add_negations(split, start_index=0, end_index=None, mode='append', deep=False):
     # output file create/overwrite file
-    outfile = f'output/dataset/{split}.jsonl'
+    outfile = f'output/dataset/old_format/{split}.jsonl'
     # TODO check if the file exists. dont override
     # with open(outfile, 'w') as f:
     #     pass
@@ -252,12 +252,12 @@ def add_negations(split, start_index=0, stop_index=None, mode='append', deep=Fal
     gpt_preamble += examples_str
 
     # read templates and get GPT response
-    infile = f'output/dataset/{split}_dialogues.jsonl'
+    infile = f'output/dataset/old_format/{split}_dialogues.jsonl'
     with open(infile, 'r') as json_file:
         json_list = list(json_file)
 
     print(f'Generating negations for {split} split...')
-    for json_str in tqdm(json_list[start_index:stop_index]):
+    for json_str in tqdm(json_list[start_index:end_index]):
         datum = json.loads(json_str)
         datum['negations'] = []
 
@@ -293,16 +293,15 @@ def add_negations(split, start_index=0, stop_index=None, mode='append', deep=Fal
 
 if __name__ == "__main__":
     # splits = ['train', 'dev', 'test']
-    # splits = ['train']
+    splits = ['train']
     # splits = ['dev', 'test']
     # splits = ['dev']
-    splits = ['test']
+    # splits = ['test']
     for sp in splits:
         # gen_templates(sp, write_tails=True, do_confounders=False)
         # gen_templates(sp, write_tails=False, do_confounders=True)
         # gen_templates(sp, write_tails=False, do_confounders=False)
         # gen_dialogues(sp, start_index=8)
-        gen_dialogues(sp, start_index=15)
         # add_negations(sp, start_index=8)
-        # add_negations(sp, start_index=4995, stop_index=5000)
-        # add_negations(sp, deep=False)
+        # add_negations(sp, start_index=4995, end_index=5000)
+        add_negations(sp, start_index=14574, end_index=14575, deep=False, mode='write')

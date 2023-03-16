@@ -79,9 +79,40 @@ def add_explanations(split):
             json.dump(datum, json_file)
             json_file.write('\n')
 
+def reformat(split):
+    # final resting place
+    outfile = f'output/dataset/{split}.jsonl'
+    with open(outfile, 'w') as json_file:
+        pass
+
+    # get dialogues in old format
+    infile = f'output/dataset/old_format/{split}.jsonl'
+    with open(infile, 'r') as json_file:
+        json_list = list(json_file)
+
+    print(f'Reading dialogues for {split} split...')
+    for json_str in json_list:
+        datum = json.loads(json_str)
+        datum['context'] = datum['dialogue'][0:-1]
+        datum['response'] = {
+            'valid': datum['dialogue'][-1],
+            'invalid': datum['negations'][-1]
+        }
+        del datum['dialogue']
+        del datum['negations']
+
+        # write new data
+        with open(outfile, 'a') as json_file:
+            json.dump(datum, json_file)
+            json_file.write('\n')
+    print(f'Reading dialogues for {split} split...Done')
+
+
 if __name__ == "__main__":
     # splits = ['train','dev','test']
-    splits = ['dev']
+    splits = ['train','test']
+    # splits = ['dev']
     for sp in splits:
         # preprocess_binary_classification(sp)
-        add_explanations(sp)
+        # add_explanations(sp)
+        reformat(sp)
