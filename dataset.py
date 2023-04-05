@@ -147,7 +147,7 @@ def gen_templates(split, num_samples=None, write_tails=False, do_confounders=Tru
 
 def gen_dialogues(split, start_index=0, end_index=None, mode='append'):
     # output file create/overwrite file
-    outfile = f'output/dataset/old_format/{split}_dialogues.jsonl'
+    outfile = f'output/dataset/test_dialogues_repairs.jsonl'
     # TODO check if the file exists. dont override
     # with open(outfile, 'w') as f:
     #     pass
@@ -197,7 +197,7 @@ def gen_dialogues(split, start_index=0, end_index=None, mode='append'):
 
         # ping GPT api
         response = openai.Completion.create(
-            engine="text-davinci-002",
+            engine="text-davinci-003",
             prompt=gpt_prompt,
             temperature=0.7,
             max_tokens=256,
@@ -208,7 +208,10 @@ def gen_dialogues(split, start_index=0, end_index=None, mode='append'):
         )
 
         # pprint(gpt_prompt)
-        datum['dialogue'] = util.parse_gpt_response(response['choices'][0]['text'])
+        datum['context'] = util.parse_gpt_response(response['choices'][0]['text'])[:-1]
+        datum['response'] = {
+            'valid': util.parse_gpt_response(response['choices'][0]['text'])[-1]
+        }
 
         # write the new data to file
         with open(outfile, 'a') as f:
@@ -217,9 +220,9 @@ def gen_dialogues(split, start_index=0, end_index=None, mode='append'):
 
     print(f'Generating dialogues for {split} split...Done')
 
-def add_negations(split, start_index=0, end_index=None, mode='append', deep=False):
+def add_negations(split, start_index=0, end_index=None, mode='append'):
     # output file create/overwrite file
-    outfile = f'output/dataset/old_format/{split}.jsonl'
+    outfile = f'output/dataset/{split}.jsonl'
     # TODO check if the file exists. dont override
     # with open(outfile, 'w') as f:
     #     pass
@@ -259,30 +262,30 @@ def add_negations(split, start_index=0, end_index=None, mode='append', deep=Fals
     print(f'Generating negations for {split} split...')
     for json_str in tqdm(json_list[start_index:end_index]):
         datum = json.loads(json_str)
-        datum['negations'] = []
+        datum['context'] = datum['dialogue'][:-1]
+        datum['response'] = {
+            'valid': datum['dialogue'][-1],
+        }
 
-        # if shallow, only negate the last turn
-        if deep:
-            si = 0
-        else:
-            si = -1
-        for turn in datum['dialogue'][si:]:
-            gpt_prompt = f'{gpt_preamble}\ntext: {turn}\nopposite: '
+        gpt_prompt = f"{gpt_preamble}\ntext: {datum['response']['valid']}\nopposite: "
 
-            # ping GPT api
-            response = openai.Completion.create(
-                engine="text-davinci-003",
-                prompt=gpt_prompt,
-                temperature=0.7,
-                max_tokens=50,
-                top_p=1.0,
-                frequency_penalty=0.0,
-                presence_penalty=0.0,
-                stop='text:'
-            )
+        # ping GPT api
+        response = openai.Completion.create(
+            engine="text-davinci-003",
+            prompt=gpt_prompt,
+            temperature=0.7,
+            max_tokens=50,
+            top_p=1.0,
+            frequency_penalty=0.0,
+            presence_penalty=0.0,
+            stop='text:'
+        )
 
-            # pprint(gpt_prompt)
-            datum['negations'].append(response['choices'][0]['text'].replace('\n',''))
+        # pprint(gpt_prompt)
+        datum['response']['invalid'] = response['choices'][0]['text'].replace('\n','')
+
+        # remove dialogue key
+        datum.pop('dialogue')
 
         # write the new data to file
         with open(outfile, 'a') as f:
@@ -293,7 +296,7 @@ def add_negations(split, start_index=0, end_index=None, mode='append', deep=Fals
 
 if __name__ == "__main__":
     # splits = ['train', 'dev', 'test']
-    splits = ['train']
+    splits = ['test']
     # splits = ['dev', 'test']
     # splits = ['dev']
     # splits = ['test']
@@ -304,4 +307,5 @@ if __name__ == "__main__":
         # gen_dialogues(sp, start_index=8)
         # add_negations(sp, start_index=8)
         # add_negations(sp, start_index=4995, end_index=5000)
-        add_negations(sp, start_index=14574, end_index=14575, deep=False, mode='write')
+        # add_negations(sp, mode='append')
+        gen_dialogues(sp, start_index=917, end_index=918, mode='write')

@@ -107,12 +107,41 @@ def reformat(split):
             json_file.write('\n')
     print(f'Reading dialogues for {split} split...Done')
 
+def process_for_gpt_finetuning(sp):
+    # final resting place
+    outfile = f'output/finetune/{sp}.jsonl'
+    with open(outfile, 'a') as json_file:
+        pass
+
+    # get dialogues with explanations
+    infile = f'output/final/{sp}.jsonl'
+    with open(infile, 'r') as json_file:
+        json_list = list(json_file)
+
+    gpt_preamble = 'You are given a dialogue written by an AI. The AI is attempting to sound as human as possible, but it is imperfect and makes mistakes. Sometimes it sounds unnatural. Given the dialogue, write 1-2 sentences explaining what the AI did wrong, or why its dialogue sounds strange or unnatural.'
+    gpt_preamble += '\nDialogue:\n'
+    for json_str in json_list:
+        datum = json.loads(json_str)
+
+        prompt = gpt_preamble + '\n'.join(datum['context']) + '\n' + datum['response']['invalid'] + '\n\nExplanation:\n'
+        for exp in datum['explanations']:
+            output = {
+                'prompt': prompt,
+                'completion': exp['text'],
+            }
+
+            # write new data
+            with open(outfile, 'a') as json_file:
+                json.dump(output, json_file)
+                json_file.write('\n')
+
 
 if __name__ == "__main__":
     # splits = ['train','dev','test']
-    splits = ['train','test']
-    # splits = ['dev']
+    # splits = ['train','test']
+    splits = ['dev']
     for sp in splits:
         # preprocess_binary_classification(sp)
         # add_explanations(sp)
-        reformat(sp)
+        # reformat(sp)
+        process_for_gpt_finetuning(sp)
