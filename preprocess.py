@@ -1,5 +1,6 @@
 import json
 import csv
+import util
 from tqdm import tqdm
 import pdb
 from pprint import pprint
@@ -32,9 +33,9 @@ def preprocess_binary_classification(split):
             f.write('\n')
 
 
-def add_explanations(split):
+def add_feedback(split):
     # output file create/overwrite file
-    outfile = f'output/final/{split}.jsonl'
+    outfile = f'output/feedback/{split}.jsonl'
 
     # initialize final data dict
     data = {}
@@ -47,37 +48,32 @@ def add_explanations(split):
     print(f'Reading dialogues for {split} split...')
     for json_str in json_list:
         datum = json.loads(json_str)
-        datum['context'] = datum['dialogue'][0:-1]
-        datum['response'] = {
-            'valid': datum['dialogue'][-1],
-            'invalid': datum['negations'][-1]
-        }
-        datum['explanations'] = []
-        del datum['dialogue']
-        del datum['negations']
+        datum['feedback'] = []
         data[datum['id']] = datum
+        datum['response'] = [{'text': value, 'source': key} for key,value in datum['response'].items()]
     print(f'Reading dialogues for {split} split...Done')
 
-    # get explanations
-    paths = Path(f'output/mturk/response/{split}').glob('dev[0-9]*.csv')
+    # get feedback
+    paths = Path(f'output/mturk/response/{split}').glob(f'{split}[0-9]*.csv')
     for path in paths:
         with path.open() as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
                 turns = len([int(key.strip('Input.turn')) for key in row.keys() if 'Input.turn' in key])
-                exp = {
+                fb = {
                     'text': json.loads(row['Answer.taskAnswers'])[0]['explanation'],
                     'source': 'mturk'
                 }
                 id = int(row['Input.id'])
-                data[id]['explanations'].append(exp)
+                data[id]['feedback'].append(fb)
 
 
     # write new data
     with open(outfile, 'w') as json_file:
         for datum in data.values():
-            json.dump(datum, json_file)
-            json_file.write('\n')
+            if len(datum['feedback']) > 0:
+                json.dump(datum, json_file)
+                json_file.write('\n')
 
 def reformat(split):
     # final resting place
@@ -109,27 +105,45 @@ def reformat(split):
 
 def process_for_gpt_finetuning(sp):
     # final resting place
-    outfile = f'output/finetune/{sp}.jsonl'
+    outfile = f'output/finetune/feedback/{sp}.jsonl'
     with open(outfile, 'a') as json_file:
         pass
 
-    # get dialogues with explanations
-    infile = f'output/final/{sp}.jsonl'
+    # get dialogues with feedback
+    infile = f'output/feedback/{sp}.jsonl'
     with open(infile, 'r') as json_file:
         json_list = list(json_file)
 
-    gpt_preamble = 'You are given a dialogue written by an AI. The AI is attempting to sound as human as possible, but it is imperfect and makes mistakes. Sometimes it sounds unnatural. Given the dialogue, write 1-2 sentences explaining what the AI did wrong, or why its dialogue sounds strange or unnatural.'
-    gpt_preamble += '\nDialogue:\n'
     for json_str in json_list:
         datum = json.loads(json_str)
-
-        prompt = gpt_preamble + '\n'.join(datum['context']) + '\n' + datum['response']['invalid'] + '\n\nExplanation:\n'
-        for exp in datum['explanations']:
+        prompt = util.get_gpt_feedback_prompt(datum)
+        for fb in datum['feedback']:
             output = {
                 'prompt': prompt,
-                'completion': exp['text'],
+                'completion': ' ' + fb['text'] + '###',
             }
 
+            # write new data
+            with open(outfile, 'a') as json_file:
+                json.dump(output, json_file)
+                json_file.write('\n')
+
+def process_for_correction(sp):
+    # final resting place
+    outfile = f'output/finetune/correction/{sp}.jsonl'
+    with open(outfile, 'w') as json_file:
+        pass
+
+    # get dialogues with feedback
+    infile = f'output/feedback/{sp}.jsonl'
+    with open(infile, 'r') as json_file:
+        json_list = list(json_file)
+
+    for json_str in json_list:
+        datum = json.loads(json_str)
+        for pair in util.get_gpt_correction_pairs(datum):
+
+            pdb.set_trace()
             # write new data
             with open(outfile, 'a') as json_file:
                 json.dump(output, json_file)
@@ -139,9 +153,11 @@ def process_for_gpt_finetuning(sp):
 if __name__ == "__main__":
     # splits = ['train','dev','test']
     # splits = ['train','test']
-    splits = ['dev']
+    # splits = ['dev']
+    splits = ['train']
     for sp in splits:
         # preprocess_binary_classification(sp)
-        # add_explanations(sp)
+        # add_feedback(sp)
         # reformat(sp)
-        process_for_gpt_finetuning(sp)
+        # process_for_gpt_finetuning(sp)
+        process_for_correction(sp)

@@ -2,6 +2,7 @@ import spacy
 import pyinflect
 import csv
 import numpy as np
+import json
 # from spacy.tokens import Token
 from datamuse import Datamuse
 import re
@@ -9,6 +10,8 @@ import pdb
 from atomic import node_iterator
 from tqdm import tqdm
 from collections import defaultdict
+import os
+from pathlib import Path
 
 api = Datamuse()
 nlp = spacy.load('en_core_web_sm')
@@ -112,4 +115,43 @@ def opposite(word):
         return api.words(rel_ant=word)[0]['word']
     else:
         return None
+
+def get_gpt_feedback_prompt(datum):
+    prompt = '\n'.join(datum['context']) + '\n'
+    invresp = [resp['text'] for resp in datum['response'] if resp['source'] == 'invalid']
+    prompt += 'Baseline Response:\n' + invresp[0] + '\n\n###\n\n'
+    return prompt
+
+def get_gpt_correction_prompt(datum):
+    prompt = '\n'.join(datum['context']) + '\n'
+    prompt += 'Baseline Response:\n' + datum['response']['invalid'] + '\nFeedback:\n'
+    return [prompt + fb['text'] + '\n\n###\n\n' for fb in datum['feedback']]
+
+def get_gpt_correction_pairs(datum):
+    prompt = '\n'.join(datum['context']) + '\n'
+    vr = [resp['text'] for resp in datum['response'] if resp['source'] == 'valid']
+    ir = [resp['text'] for resp in datum['response'] if resp['source'] == 'invalid']
+    prompt += 'Baseline Response:\n' + ir[0] + '\nFeedback:\n'
+    outputs = []
+    for fb in datum['feedback']:
+        output = {
+            'prompt': prompt + fb['text'] + '\n\n###\n\n',
+            'completion': vr[0]
+        }
+        outputs.append(output)
+    return outputs
     
+def get_jsonl_current_idx(filename):
+    # Opens a jsonl file and returns the id of the last line
+    # creates a new file if one does not exist
+    fh = Path(filename)
+    fh.touch(exist_ok=True)
+    start_idx = json.loads(fh.read_text().splitlines()[-1])['id']
+    return start_idx
+
+def get_openai_key():
+    # openai api key
+    api_key_file = Path('/Users/crichardson8/.gpt/api_key')
+    with api_key_file.open() as f:
+        key = f.readline()
+        return key.replace('\n','')

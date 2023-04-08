@@ -1,5 +1,7 @@
 import json
 import pdb
+import util
+import os
 from tqdm import tqdm
 from pprint import pprint
 import numpy as np
@@ -108,11 +110,132 @@ def generate_flanT5(split):
         inputs = tokenizer(prompt, return_tensors="pt")
         outputs = model.generate(**inputs)
         print(tokenizer.batch_decode(outputs, skip_special_tokens=True))
+        pdb.set_trace()
+
+def generate_corrections(split):
+
+    openai.api_key = util.get_openai_key()
+
+    infile = f'output/feedback/{split}.jsonl'
+    with open(infile, 'r') as json_file:
+        json_list = list(json_file)
+
+    outfile = f'output/dialogue_modeling/corrections/{split}.jsonl'
+    start_idx = util.get_jsonl_current_idx(outfile)
+
+    print(f'Generating responses for {split} split...')
+    for idx,json_str in enumerate(tqdm(json_list)):
+        if idx < start_idx:
+            continue
+        datum = json.loads(json_str)
+        prompts = util.get_gpt_correction_prompt(datum)
+
+        for prompt in prompts:
+            # ping GPT api
+            response = openai.Completion.create(
+                engine="text-davinci-003",
+                prompt=prompt,
+                temperature=0.7,
+                max_tokens=256,
+                top_p=1.0,
+                frequency_penalty=0.0,
+                presence_penalty=0.0,
+                stop=['###', 'Baseline:', 'Feedback:', '\n']
+            )
+            datum['response'] = {
+                'text': response['choices'][0]['text'],
+                'source': 'gpt-base',
+            }
+
+            # use finetuned model as well
+            model_ft = "davinci:ft-georgia-institute-of-technology-2023-04-06-19-34-21"
+            response_ft = openai.Completion.create(
+                model=model_ft,
+                prompt=prompt,
+                temperature=0.7,
+                max_tokens=50,
+                top_p=1.0,
+                frequency_penalty=0.0,
+                presence_penalty=0.0,
+                stop=['###', 'Baseline:', 'Feedback:', '\n']
+            )
+            datum['response'] = {
+                'text': response_ft['choices'][0]['text'],
+                'source': 'gpt-ft-davinci',
+            }
+
+            # TODO fix this throughout the pipeline
+            # change the response field to be an array with text and source
+            datum['response'] = [{'text': text, 'source': source} for source, text in datum['response'].items()]
+
+            # write the new data to file
+            with open(outfile, 'a') as f:
+                json.dump(datum, f)
+                f.write('\n')
+    print(f'Generating responses for {split} split...Done')
+
+def gen_feedback(split):
+    openai.api_key = util.get_openai_key()
+
+    infile = f'output/feedback/{split}.jsonl'
+    with open(infile, 'r') as json_file:
+        json_list = list(json_file)
+
+    outfile = f'output/dialogue_modeling/feedback/{split}.jsonl'
+    start_idx = util.get_jsonl_current_idx(outfile)
+
+    print(f'Generating responses for {split} split...')
+    for idx,json_str in enumerate(tqdm(json_list)):
+        if idx < start_idx:
+            continue
+        datum = json.loads(json_str)
+        datum['feedback'] = []
+
+        prompt = util.get_gpt_feedback_prompt(datum)
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are shown a synthetic dialogue written by an AI. The dialogue is intended to sound like a natural text message conversation between two people. The AI is imperfect and makes mistakes. You are asked to provide feedback to the AI to improve its dialogue generation. You are given a few dialogue turns, followed by a Baseline Response. Please give 1-2 sentences of feedback for the baseline response, and please be specific!\n"},
+                {"role": "user", "content": prompt + '\nFeedback:\n'},
+            ]
+        )
+        datum['feedback'].append({
+            'text': response['choices'][0]['message']['content'],
+            'source': 'gpt-3.5-turbo',
+        })
+
+        # use finetuned model as well
+        model_ft = "davinci:ft-georgia-institute-of-technology:feedback-2023-04-07-22-25-47"
+        response_ft = openai.Completion.create(
+            model=model_ft,
+            prompt=prompt,
+            temperature=0.7,
+            max_tokens=50,
+            top_p=1.0,
+            frequency_penalty=0.0,
+            presence_penalty=0.0,
+            stop=['###', 'Baseline:', 'Feedback:', '\n']
+        )
+        datum['feedback'].append({
+            'text': response_ft['choices'][0]['text'],
+            'source': 'gpt-ft-davinci',
+        })
+
+        # write the new data to file
+        with open(outfile, 'a') as f:
+            json.dump(datum, f)
+            f.write('\n')
+    print(f'Generating responses for {split} split...Done')
+
 
 
 if __name__ == '__main__':
     # splits = ['train','val','test']
-    splits = ['test']
+    # splits = ['test']
+    splits = ['dev']
+    # splits = ['train']
     for split in splits:
         # generate_dialogue_responses(split)
-        generate_flanT5(split)
+        # generate_flanT5(split)
+        # generate_corrections(split)
+        gen_feedback(split)
