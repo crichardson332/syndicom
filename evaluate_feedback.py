@@ -75,12 +75,30 @@ def scoring_function(predictions, references_1, references_2, metric):
         score_df['score1'] = score_1
         score_df['score2'] = score_2
 
+    if metric == 'meteor':
+        meteor = evaluate.load('meteor')
+
+        score_1 = []
+        score_2 = []
+        score_df = pd.DataFrame()
+
+        for i in tqdm(range(len(predictions))):
+            pred_i = [predictions[i]]
+            ref_1_i = [references_1[i]]
+            ref_2_i = [references_2[i]]
+
+            score_1.append(meteor.compute(predictions=pred_i, references=ref_1_i)['meteor'])
+            score_2.append(meteor.compute(predictions=pred_i, references=ref_2_i)['meteor'])    
+        
+        score_df['score1'] = score_1
+        score_df['score2'] = score_2
 
     score_df['max_score'] = score_df[['score1', 'score2']].max(axis=1)
     score_df['min_score'] = score_df[['score1', 'score2']].min(axis=1)
     score_df['avg_score'] = score_df[['score1', 'score2']].mean(axis=1)
 
     return score_df['max_score'].mean(), score_df['min_score'].mean(), score_df['avg_score'].mean()
+
 
 infile = 'dev_feedback.jsonl'
 
@@ -117,6 +135,7 @@ scoring_function(gpt_turbo, mturk_1, mturk_2, metric='bertscore')
 scoring_function(gpt_ft, mturk_1, mturk_2, metric='bertscore')
 """
 
+"""
 print("Sacrebleu")
 max_score, min_score, avg_score = scoring_function(gpt_turbo, mturk_1, mturk_2, metric='sacrebleu')
 print(f"GPT_Turbo max:{max_score}, min:{min_score}, avg:{avg_score}")
@@ -128,4 +147,11 @@ print("Bleu")
 max_score,  min_score, avg_score = scoring_function(gpt_turbo, mturk_1, mturk_2, metric='bleu')
 print(f"GPT_Turbo max:{max_score}, min:{min_score}, avg:{avg_score}")
 max_score,  min_score, avg_score = scoring_function(gpt_ft, mturk_1, mturk_2, metric='bleu')
+print(f"GPT FT max:{max_score}, min:{min_score}, avg:{avg_score}")
+"""
+
+print("Meteor")
+max_score,  min_score, avg_score = scoring_function(gpt_turbo, mturk_1, mturk_2, metric='meteor')
+print(f"GPT_Turbo max:{max_score}, min:{min_score}, avg:{avg_score}")
+max_score, min_score, avg_score = scoring_function(gpt_ft, mturk_1, mturk_2, metric='meteor')
 print(f"GPT FT max:{max_score}, min:{min_score}, avg:{avg_score}")
