@@ -116,15 +116,25 @@ def opposite(word):
     else:
         return None
 
-def get_gpt_feedback_prompt(datum):
+def get_response_prompt(datum):
+    prompt = '\n'.join(datum['context']) + '\nResponse:\n'
+    return prompt
+
+def get_gpt_feedback_prompt(datum, invalid_resp=None):
     prompt = '\n'.join(datum['context']) + '\n'
-    invresp = [resp['text'] for resp in datum['response'] if resp['source'] == 'invalid']
+    if invalid_resp is None:
+        invresp = [resp['text'] for resp in datum['response'] if resp['source'] == 'invalid']
+    else:
+        invresp = [invalid_resp]
     prompt += 'Baseline Response:\n' + invresp[0] + '\n\n###\n\n'
     return prompt
 
 def get_gpt_correction_prompt(datum):
     prompt = '\n'.join(datum['context']) + '\n'
-    prompt += 'Baseline Response:\n' + datum['response']['invalid'] + '\nFeedback:\n'
+    invalid_responses = [resp['text'] for resp in datum['response'] if resp['source'] == 'invalid']
+    # FIXME should actually loop over invalid responses if there are more than one
+    # note: would require aligning feedback to the matching invalid response
+    prompt += 'Baseline Response:\n' + invalid_responses[0] + '\nFeedback:\n'
     return [prompt + fb['text'] + '\n\n###\n\n' for fb in datum['feedback']]
 
 def get_gpt_correction_pairs(datum):
@@ -146,7 +156,11 @@ def get_jsonl_current_idx(filename):
     # creates a new file if one does not exist
     fh = Path(filename)
     fh.touch(exist_ok=True)
-    start_idx = json.loads(fh.read_text().splitlines()[-1])['id']
+    lines = fh.read_text().splitlines()
+    if len(lines) == 0:
+        start_idx = 0
+    else:
+        start_idx = json.loads(lines[-1])['id']
     return start_idx
 
 def get_openai_key():
@@ -155,3 +169,15 @@ def get_openai_key():
     with api_key_file.open() as f:
         key = f.readline()
         return key.replace('\n','')
+
+def reformat_responses(split):
+    infile = f'output/dataset/before_response_reformat/{split}.jsonl'
+    with open(infile, 'r') as f:
+        data = [json.loads(line) for line in f]
+
+    outfile = f'output/dataset/{split}.jsonl'
+    for datum in data:
+        datum['response'] = [{'text': val, 'source': key} for key,val in datum['response'].items()]
+        with open(outfile, 'a') as f:
+            json.dump(datum, f)
+            f.write('\n')

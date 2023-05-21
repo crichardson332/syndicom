@@ -50,7 +50,6 @@ def add_feedback(split):
         datum = json.loads(json_str)
         datum['feedback'] = []
         data[datum['id']] = datum
-        datum['response'] = [{'text': value, 'source': key} for key,value in datum['response'].items()]
     print(f'Reading dialogues for {split} split...Done')
 
     # get feedback
@@ -142,22 +141,45 @@ def process_for_correction(sp):
     for json_str in json_list:
         datum = json.loads(json_str)
         for pair in util.get_gpt_correction_pairs(datum):
-
-            pdb.set_trace()
-            # write new data
             with open(outfile, 'a') as json_file:
-                json.dump(output, json_file)
+                json.dump(pair, json_file)
                 json_file.write('\n')
+
+def process_for_finetune_negation(sp):
+    # final resting place
+    outfile = f'output/finetune/negation/{sp}.jsonl'
+    with open(outfile, 'a') as json_file:
+        pass
+
+    # get dialogues 
+    infile = f'output/dataset/{sp}.jsonl'
+    with open(infile, 'r') as json_file:
+        json_list = list(json_file)
+
+    for json_str in json_list:
+        datum = json.loads(json_str)
+        prompt = [resp['text'] for resp in datum['response'] if resp['source'] == 'invalid'][0]
+        ref = [resp['text'] for resp in datum['response'] if resp['source'] == 'valid'][0]
+        output = {
+            'prompt': prompt,
+            'completion': ref + '###',
+        }
+
+        # write new data
+        with open(outfile, 'a') as json_file:
+            json.dump(output, json_file)
+            json_file.write('\n')
 
 
 if __name__ == "__main__":
     # splits = ['train','dev','test']
-    # splits = ['train','test']
+    splits = ['train','test']
     # splits = ['dev']
-    splits = ['train']
+    # splits = ['train']
     for sp in splits:
         # preprocess_binary_classification(sp)
         # add_feedback(sp)
         # reformat(sp)
         # process_for_gpt_finetuning(sp)
-        process_for_correction(sp)
+        # process_for_correction(sp)
+        process_for_finetune_negation(sp)

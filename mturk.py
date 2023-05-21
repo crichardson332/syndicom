@@ -23,17 +23,12 @@ def gen_csv(split, num_samples=inf, num_turns=3):
     count = 0
     for json_str in json_list:
         datum = json.loads(json_str)
-        if len(datum['dialogue']) != num_turns:
+        if (len(datum['context'])+1) != num_turns:
             continue
 
-        output = [f'{datum["id"]}']
-        
-        # write first N-1 turns
-        for i in range(num_turns-1):
-            output.append(f'{datum["dialogue"][i]}')
-
-        # Nth turn is the negation
-        output.append(f'{datum["negations"][-1]}')
+        output = [f'{datum["id"]}'] + datum['context'] 
+        invr = [resp['text'] for resp in datum['response'] if resp['source'] == 'invalid'][0]
+        output.append(invr)
 
         # write output string
         cw.writerow(output)
@@ -127,12 +122,48 @@ def display_explanations(subdir):
             #         print(f"  {speaker}: - turn missing -")
             #         continue
 
+def gen_response_selection(split, num_samples=inf, num_turns=3):
+    infile = f'output/dialogue_modeling/fb_correction/{split}.jsonl'
+    with open(infile, 'r') as json_file:
+        json_list = list(json_file)
+
+    outfile = f'output/mturk/response_selection/query/{split}{num_turns}.csv'
+    cw = csv.writer(open(outfile, 'w'))
+    # write csv headers first
+    headers = ['id']
+    for i in range(num_turns-1):
+        headers.append(f'turn{i}')
+    headers += ['syndicom', 'chatgpt']
+    cw.writerow(headers)
+
+    count = 0
+    for json_str in json_list:
+        datum = json.loads(json_str)
+        if (len(datum['context'])+1) != num_turns:
+            continue
+
+        output = [f'{datum["id"]}'] + datum['context'] 
+        # add baseline and our responses
+        syndicom = [resp['text'] for resp in datum['response'] if resp['source'] == 'gpt-ft-correction'][0].strip("\n")
+        chatgpt = [resp['text'] for resp in datum['response'] if resp['source'] == 'gpt-3.5-turbo'][0].strip("\n")
+        output += [syndicom, chatgpt]
+
+
+        # write output string
+        cw.writerow(output)
+
+        count += 1
+        if count >= num_samples:
+            break
+
 
 if __name__ == "__main__":
     # splits = ['train', 'dev', 'test']
-    splits = ['train']
+    # splits = ['train']
+    splits = ['test']
+    # turns = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
     turns = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
-    # turns = [10]
+    # turns = [3]
     for sp in splits:
         # write_sagemaker_manifest(sp)
         # display_explanations('text-message-explanations')
@@ -140,4 +171,5 @@ if __name__ == "__main__":
         for t in turns:
             # gen_csv(sp, num_turns=t)
             # gen_csv_full(sp, num_samples=100)
-            gen_csv(sp, num_turns=t)
+            # gen_csv(sp, num_turns=t)
+            gen_response_selection(sp, num_turns=t)
