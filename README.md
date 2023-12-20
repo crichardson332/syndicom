@@ -18,7 +18,7 @@ SigDial 2023: https://2023.sigdial.org/
     unzip https://ai2-atomic.s3-us-west-2.amazonaws.com/data/atomic2020_data-feb2021.zip
 
 ### Dataset
-Data files are available under `dataset/`. Each line of the `jsonl` data files contains:
+Data files are available [here](dataset/syndicom). Each line of the `jsonl` data files contains:
 - The template used to generate the dialogue
 - Dialogue context (first N-1 turns)
 - Responses, both valid and invalid (N'th turn)
