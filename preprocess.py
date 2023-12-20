@@ -173,13 +173,12 @@ def process_for_finetune_negation(sp):
 
 if __name__ == "__main__":
     # splits = ['train','dev','test']
-    splits = ['train','test']
-    # splits = ['dev']
-    # splits = ['train']
+    splits = ['dev']
     for sp in splits:
         # preprocess_binary_classification(sp)
         # add_feedback(sp)
         # reformat(sp)
         # process_for_gpt_finetuning(sp)
         # process_for_correction(sp)
-        process_for_finetune_negation(sp)
+        # process_for_finetune_negation(sp)
+        add_feedback(sp)
