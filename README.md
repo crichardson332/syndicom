@@ -1,5 +1,11 @@
 ## SYNDICOM - Synthetic Dialogues with Commonsense
-This repo contains the code used for the [SigDial 2023](https://2023.sigdial.org/) paper [**SYNDICOM: Improving Conversational Commonsense with Error-Injection and Natural Language Feedback](https://arxiv.org/pdf/2309.10015.pdf)
+This repo contains the code used for the SigDial 2023 paper **SYNDICOM: Improving Conversational Commonsense with Error-Injection and Natural Language Feedback**
+    
+Paper: https://arxiv.org/pdf/2309.10015.pdf
+
+Google scholar: https://scholar.google.com/citations?hl=en&user=6Lk0excAAAAJ 
+
+SigDial 2023: https://2023.sigdial.org/
 
 ### Install
 
